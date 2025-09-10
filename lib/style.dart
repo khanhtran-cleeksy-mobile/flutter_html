@@ -270,7 +270,7 @@ class Style {
       letterSpacing: letterSpacing,
       shadows: textShadow,
       wordSpacing: wordSpacing,
-      height: lineHeight?.size ?? 1.0,
+      height: lineHeight?.size,
       //TODO background
       //TODO textBaseline
     );
@@ -330,10 +330,6 @@ class Style {
         FontSize(child.fontSize!.size! * fontSize!.size!) : child.fontSize
       : fontSize != null && fontSize!.size! < 0 ?
         FontSize.percent(100) : fontSize;
-    LineHeight? finalLineHeight = child.lineHeight != null ?
-      child.lineHeight?.units == "length" ?
-        LineHeight(child.lineHeight!.size! / (finalFontSize == null ? 14 : finalFontSize.size!) * 1.2) : child.lineHeight
-      : lineHeight;
     return child.copyWith(
       backgroundColor: child.backgroundColor != Colors.transparent ?
         child.backgroundColor : backgroundColor,
@@ -345,7 +341,7 @@ class Style {
       fontSize: finalFontSize,
       fontStyle: child.fontStyle ?? fontStyle,
       fontWeight: child.fontWeight ?? fontWeight,
-      lineHeight: finalLineHeight,
+      lineHeight: child.lineHeight,
       letterSpacing: child.letterSpacing ?? letterSpacing,
       listStyleType: child.listStyleType ?? listStyleType,
       listStylePosition: child.listStylePosition ?? listStylePosition,
@@ -453,7 +449,7 @@ class Style {
     this.letterSpacing = textStyle.letterSpacing;
     this.textShadow = textStyle.shadows;
     this.wordSpacing = textStyle.wordSpacing;
-    this.lineHeight = LineHeight(textStyle.height ?? 1.2);
+    this.lineHeight = textStyle.height != null ? LineHeight(textStyle.height) : null;
     this.textTransform = TextTransform.none;
   }
 }
